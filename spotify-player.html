@@ -12,16 +12,17 @@
     rel="stylesheet">
   <style>
     :root {
-      --bg: #0c0c0c;
-      --s1: #141414;
-      --s2: #1c1c1c;
-      --s3: #242424;
-      --border: rgba(255, 255, 255, 0.06);
+      --bg: #080808;
+      --s1: #111111;
+      --s2: #181818;
+      --s3: #202020;
+      --border: rgba(255, 255, 255, 0.07);
       --text: #f2f0eb;
       --muted: rgba(242, 240, 235, 0.4);
-      --dim: rgba(242, 240, 235, 0.12);
+      --dim: rgba(242, 240, 235, 0.1);
       --green: #1db954;
       --green2: #1ed760;
+      --green-glow: rgba(29, 185, 84, 0.18);
       --font-d: "Playfair Display", Georgia, serif;
       --font-b: "Inconsolata", monospace;
     }
@@ -29,46 +30,48 @@
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     html,
     body {
       height: 100%;
-      overflow: hidden;
+      overflow: hidden
     }
 
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--font-b);
-      font-weight: 300;
+      font-weight: 300
     }
 
+    /* GRAIN OVERLAY */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       z-index: 9999;
       pointer-events: none;
-      opacity: .025;
+      opacity: .03;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 180px;
     }
 
+    /* AMBIENT BG */
     #bg-art {
       position: fixed;
       inset: 0;
       z-index: 0;
       opacity: 0;
-      transition: opacity 3s;
+      transition: opacity 3s ease, background-image .1s;
       background-size: cover;
       background-position: center;
-      filter: blur(120px) saturate(1.6) brightness(.22);
-      transform: scale(1.2);
+      filter: blur(130px) saturate(2) brightness(.18);
+      transform: scale(1.3);
     }
 
-    /* AUTH */
+    /* ─── AUTH ─────────────────────────────────────── */
     #auth {
       position: fixed;
       inset: 0;
@@ -92,7 +95,7 @@
     }
 
     .auth-title span {
-      color: var(--green);
+      color: var(--green)
     }
 
     .auth-sub {
@@ -117,25 +120,25 @@
       letter-spacing: .1em;
       color: var(--muted);
       text-transform: uppercase;
-      margin-bottom: .6rem;
+      margin-bottom: .6rem
     }
 
     .auth-steps ol {
       padding-left: 1.1rem;
       display: flex;
       flex-direction: column;
-      gap: .35rem;
+      gap: .35rem
     }
 
     .auth-steps li {
       font-size: .74rem;
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.5
     }
 
     .auth-steps li b {
       color: var(--green);
-      font-weight: 400;
+      font-weight: 400
     }
 
     .auth-box {
@@ -154,7 +157,7 @@
       font-size: .65rem;
       letter-spacing: .1em;
       color: var(--muted);
-      text-transform: uppercase;
+      text-transform: uppercase
     }
 
     .auth-box input {
@@ -167,16 +170,17 @@
       font-size: .82rem;
       padding: 10px 13px;
       outline: none;
-      transition: border .2s;
+      transition: border .2s, box-shadow .2s;
       margin-top: .3rem;
     }
 
     .auth-box input:focus {
       border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-glow)
     }
 
     .auth-box input::placeholder {
-      color: var(--dim);
+      color: var(--dim)
     }
 
     .btn-go {
@@ -189,23 +193,24 @@
       font-size: 1.1rem;
       padding: 11px;
       cursor: pointer;
-      transition: background .15s, transform .1s;
+      transition: background .15s, transform .1s, box-shadow .2s;
       margin-top: .2rem;
     }
 
     .btn-go:hover {
       background: var(--green2);
+      box-shadow: 0 4px 24px rgba(29, 185, 84, .35)
     }
 
     .btn-go:active {
-      transform: scale(.97);
+      transform: scale(.97)
     }
 
     #auth-err {
       font-size: .7rem;
       color: #ff4444;
       display: none;
-      text-align: center;
+      text-align: center
     }
 
     .auth-note {
@@ -213,51 +218,51 @@
       color: var(--muted);
       line-height: 1.7;
       text-align: center;
-      max-width: 360px;
+      max-width: 360px
     }
 
-    /* APP */
+    /* ─── APP GRID ──────────────────────────────────── */
     #app {
       position: relative;
       z-index: 1;
       display: none;
       height: 100vh;
       grid-template-columns: 270px 1fr;
-      grid-template-rows: 1fr 76px;
+      grid-template-rows: 1fr 80px;
     }
 
-    /* SIDEBAR */
+    /* ─── SIDEBAR ───────────────────────────────────── */
     #sidebar {
       grid-row: 1;
       display: flex;
       flex-direction: column;
       border-right: .5px solid var(--border);
-      background: rgba(12, 12, 12, .75);
-      backdrop-filter: blur(28px);
+      background: rgba(8, 8, 8, .82);
+      backdrop-filter: blur(32px);
       overflow: hidden;
     }
 
     .sb-head {
       padding: 22px 20px 12px;
-      border-bottom: .5px solid var(--border);
+      border-bottom: .5px solid var(--border)
     }
 
     .sb-logo {
       font-family: var(--font-d);
       font-style: italic;
       font-size: 1.4rem;
-      color: var(--text);
+      color: var(--text)
     }
 
     .sb-logo span {
-      color: var(--green);
+      color: var(--green)
     }
 
     .sb-tabs {
       display: flex;
       gap: 0;
       padding: 10px 20px 6px;
-      border-bottom: .5px solid var(--border);
+      border-bottom: .5px solid var(--border)
     }
 
     .sb-tab {
@@ -274,25 +279,25 @@
     }
 
     .sb-tab.on {
-      color: var(--green);
+      color: var(--green)
     }
 
     .sb-tab:hover {
-      color: var(--text);
+      color: var(--text)
     }
 
     #lib-list {
       flex: 1;
       overflow-y: auto;
-      padding: 5px 0;
+      padding: 5px 0
     }
 
     #lib-list::-webkit-scrollbar {
-      width: 2px;
+      width: 2px
     }
 
     #lib-list::-webkit-scrollbar-thumb {
-      background: var(--border);
+      background: var(--border)
     }
 
     .lib-item {
@@ -302,14 +307,27 @@
       padding: 8px 20px;
       cursor: pointer;
       transition: background .12s;
+      animation: fadeSlideIn .25s ease both;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
     }
 
     .lib-item:hover {
-      background: var(--s1);
+      background: var(--s1)
     }
 
     .lib-item.on {
-      background: var(--s2);
+      background: var(--s2)
     }
 
     .li-thumb {
@@ -324,16 +342,21 @@
       justify-content: center;
       font-size: 15px;
       color: var(--dim);
+      transition: transform .2s;
+    }
+
+    .lib-item:hover .li-thumb {
+      transform: scale(1.05)
     }
 
     .li-thumb img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover
     }
 
     .li-meta {
-      min-width: 0;
+      min-width: 0
     }
 
     .li-name {
@@ -342,84 +365,116 @@
       color: var(--text);
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      text-overflow: ellipsis
     }
 
     .li-detail {
       font-size: .65rem;
       color: var(--muted);
-      margin-top: 1px;
+      margin-top: 1px
     }
 
     .sb-msg {
       padding: 18px 20px;
       font-size: .72rem;
       color: var(--muted);
-      text-align: center;
+      text-align: center
     }
 
-    /* MAIN */
+    /* ─── MAIN AREA ─────────────────────────────────── */
     #main {
       grid-column: 2;
       grid-row: 1;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: hidden
     }
 
+    /* HERO */
     #hero {
       flex-shrink: 0;
-      padding: 28px 28px 14px;
+      padding: 28px 28px 16px;
       display: flex;
-      gap: 22px;
+      gap: 26px;
       align-items: flex-end;
+      position: relative;
     }
 
+    /* ALBUM ART */
     #art-wrap {
       position: relative;
-      flex-shrink: 0;
+      flex-shrink: 0
     }
 
     #art-img {
-      width: 116px;
-      height: 116px;
-      border-radius: 9px;
+      width: 130px;
+      height: 130px;
+      border-radius: 12px;
       object-fit: cover;
       display: block;
-      box-shadow: 0 18px 52px rgba(0, 0, 0, .65);
       background: var(--s2);
-      transition: opacity .5s;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .7), 0 0 0 .5px rgba(255, 255, 255, .06);
+      transition: opacity .5s, transform .5s cubic-bezier(.34, 1.56, .64, 1);
     }
 
+    #art-img.refreshing {
+      opacity: 0;
+      transform: scale(.93) rotate(-2deg)
+    }
+
+    #art-img.playing {
+      animation: artFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes artFloat {
+
+      0%,
+      100% {
+        box-shadow: 0 24px 64px rgba(0, 0, 0, .7), 0 0 0 .5px rgba(255, 255, 255, .06)
+      }
+
+      50% {
+        box-shadow: 0 32px 80px rgba(0, 0, 0, .8), 0 0 40px var(--green-glow), 0 0 0 .5px rgba(255, 255, 255, .08)
+      }
+    }
+
+    /* EQ BARS */
     .eq {
       position: absolute;
-      bottom: 9px;
-      right: 9px;
+      bottom: 10px;
+      right: 10px;
       display: flex;
       gap: 2px;
       align-items: flex-end;
-      height: 12px;
+      height: 14px;
       opacity: 0;
       transition: opacity .3s;
     }
 
     .eq.on {
-      opacity: 1;
+      opacity: 1
     }
 
     .eq-bar {
       width: 3px;
       border-radius: 2px;
       background: var(--green);
-      animation: eq .8s ease-in-out infinite alternate;
+      animation: eq .7s ease-in-out infinite alternate;
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .eq-bar:nth-child(1) {
+      animation-duration: .6s
     }
 
     .eq-bar:nth-child(2) {
       animation-delay: .15s;
+      animation-duration: .8s
     }
 
     .eq-bar:nth-child(3) {
       animation-delay: .3s;
+      animation-duration: .5s
     }
 
     @keyframes eq {
@@ -428,12 +483,14 @@
       }
 
       to {
-        height: 12px
+        height: 14px
       }
     }
 
+    /* HERO INFO */
     #hero-info {
       min-width: 0;
+      flex: 1
     }
 
     #hero-badge {
@@ -441,7 +498,7 @@
       letter-spacing: .14em;
       color: var(--green);
       text-transform: uppercase;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -453,6 +510,7 @@
       border-radius: 50%;
       background: var(--green);
       animation: pulse 2s ease-in-out infinite;
+      box-shadow: 0 0 8px var(--green);
     }
 
     @keyframes pulse {
@@ -464,85 +522,147 @@
       }
 
       50% {
-        opacity: .4;
-        transform: scale(.7)
+        opacity: .3;
+        transform: scale(.6)
       }
     }
 
     #hero-title {
       font-family: var(--font-d);
-      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
-      line-height: 1.1;
-      letter-spacing: -.01em;
-      margin-bottom: 5px;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      transition: opacity .3s;
     }
 
     #hero-artist {
-      font-size: .82rem;
+      font-size: .84rem;
       color: var(--muted);
+      transition: opacity .3s
     }
 
     #hero-album {
       font-size: .7rem;
       color: var(--dim);
       margin-top: 3px;
+      transition: opacity .3s
     }
 
-    /* PROGRESS (read-only) */
+    /* VISUALIZER BARS */
+    #visualizer {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 32px;
+      margin-top: 14px;
+      opacity: 0;
+      transition: opacity .5s;
+    }
+
+    #visualizer.on {
+      opacity: 1
+    }
+
+    .vis-bar {
+      width: 3px;
+      border-radius: 2px 2px 0 0;
+      background: linear-gradient(to top, var(--green), rgba(29, 185, 84, .3));
+      animation: visBar .6s ease-in-out infinite alternate;
+      transform-origin: bottom;
+    }
+
+    @keyframes visBar {
+      from {
+        transform: scaleY(.1)
+      }
+
+      to {
+        transform: scaleY(1)
+      }
+    }
+
+    /* PROGRESS */
     #prog-wrap {
       padding: 0 28px 14px;
-      flex-shrink: 0;
+      flex-shrink: 0
     }
 
     .prog-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px
     }
 
     .t-lbl {
       font-size: .6rem;
       color: var(--muted);
       font-variant-numeric: tabular-nums;
-      min-width: 30px;
+      min-width: 32px;
     }
 
     .t-lbl.r {
-      text-align: right;
+      text-align: right
     }
 
     #prog {
       flex: 1;
-      height: 2px;
+      height: 3px;
       background: var(--s3);
-      border-radius: 2px;
-      overflow: hidden;
+      border-radius: 3px;
+      overflow: visible;
+      cursor: pointer;
+      position: relative;
+    }
+
+    #prog:hover #prog-fill {
+      height: 5px
     }
 
     #prog-fill {
       height: 100%;
-      border-radius: 2px;
-      background: var(--muted);
+      border-radius: 3px;
       width: 0%;
+      background: linear-gradient(90deg, var(--green), var(--green2));
       transition: width .8s linear;
+      position: relative;
+    }
+
+    #prog-fill::after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green2);
+      opacity: 0;
+      transition: opacity .15s;
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    #prog:hover #prog-fill::after {
+      opacity: 1
     }
 
     /* TRACK LIST */
     #tl-wrap {
       flex: 1;
       overflow-y: auto;
-      padding: 0 28px 8px;
+      padding: 0 28px 8px
     }
 
     #tl-wrap::-webkit-scrollbar {
-      width: 2px;
+      width: 2px
     }
 
     #tl-wrap::-webkit-scrollbar-thumb {
-      background: var(--border);
+      background: var(--border)
     }
 
     .tl-head {
@@ -558,8 +678,8 @@
       margin-bottom: 2px;
       position: sticky;
       top: 0;
-      background: rgba(12, 12, 12, .9);
-      backdrop-filter: blur(8px);
+      background: rgba(8, 8, 8, .92);
+      backdrop-filter: blur(10px);
       z-index: 2;
     }
 
@@ -570,52 +690,74 @@
       padding: 7px 10px;
       border-radius: 7px;
       align-items: center;
-      transition: background .1s;
+      transition: background .12s;
+      animation: trackIn .2s ease both;
+    }
+
+    @keyframes trackIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
     }
 
     .tr:hover {
-      background: var(--s1);
+      background: var(--s1)
     }
 
     .tr.on {
-      background: var(--s2);
+      background: var(--s2)
     }
 
     .tr-num {
       font-size: .68rem;
       color: var(--muted);
       text-align: right;
-      font-variant-numeric: tabular-nums;
+      font-variant-numeric: tabular-nums
     }
 
     .tr.on .tr-num {
-      color: var(--green);
+      color: var(--green)
     }
 
     .tr-main {
       display: flex;
       align-items: center;
       gap: 9px;
-      min-width: 0;
+      min-width: 0
     }
 
     .tr-art {
       width: 30px;
       height: 30px;
-      border-radius: 3px;
+      border-radius: 4px;
       background: var(--s3);
       flex-shrink: 0;
       overflow: hidden;
+      transition: transform .2s;
+    }
+
+    .tr:hover .tr-art {
+      transform: scale(1.08)
+    }
+
+    .tr.on .tr-art {
+      box-shadow: 0 0 12px var(--green-glow)
     }
 
     .tr-art img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover
     }
 
     .tr-info {
-      min-width: 0;
+      min-width: 0
     }
 
     .tr-name {
@@ -628,7 +770,7 @@
     }
 
     .tr.on .tr-name {
-      color: var(--green);
+      color: var(--green)
     }
 
     .tr-artist {
@@ -636,7 +778,7 @@
       color: var(--muted);
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      text-overflow: ellipsis
     }
 
     .tr-album {
@@ -644,36 +786,80 @@
       color: var(--muted);
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      text-overflow: ellipsis
     }
 
     .tr-dur {
       font-size: .68rem;
       color: var(--muted);
       text-align: right;
-      font-variant-numeric: tabular-nums;
+      font-variant-numeric: tabular-nums
     }
 
-    /* STATUS BAR */
+    /* PLAYING INDICATOR on active track row */
+    .tr.on .tr-num {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1px;
+      height: 12px;
+    }
+
+    /* ─── STATUS BAR ────────────────────────────────── */
     #statusbar {
       grid-column: 1/3;
       grid-row: 2;
       border-top: .5px solid var(--border);
-      background: rgba(10, 10, 10, .9);
-      backdrop-filter: blur(28px);
+      background: rgba(6, 6, 6, .92);
+      backdrop-filter: blur(36px);
       display: flex;
       align-items: center;
       padding: 0 24px;
       gap: 16px;
+      position: relative;
+    }
+
+    /* mini waveform decoration on statusbar */
+    #statusbar::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: .5px;
+      background: linear-gradient(90deg, transparent, var(--green-glow), transparent);
+      transition: opacity .5s;
+      opacity: 0;
+    }
+
+    #statusbar.active::before {
+      opacity: 1;
+      animation: scanline 3s ease-in-out infinite
+    }
+
+    @keyframes scanline {
+      0% {
+        background-position: 0% 0
+      }
+
+      100% {
+        background-position: 200% 0
+      }
     }
 
     #bar-art {
-      width: 42px;
-      height: 42px;
-      border-radius: 6px;
+      width: 46px;
+      height: 46px;
+      border-radius: 7px;
       background: var(--s2);
       flex-shrink: 0;
       overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+      transition: box-shadow .4s;
+    }
+
+    #statusbar.active #bar-art {
+      box-shadow: 0 4px 24px var(--green-glow)
     }
 
     #bar-art img {
@@ -681,49 +867,110 @@
       height: 100%;
       object-fit: cover;
       display: none;
+      transition: opacity .3s
     }
 
     .bar-meta {
       min-width: 0;
-      flex: 1;
+      flex: 1
     }
 
     #bar-title {
-      font-size: .8rem;
+      font-size: .82rem;
       font-weight: 500;
       color: var(--text);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      transition: opacity .25s;
     }
 
     #bar-artist {
       font-size: .68rem;
       color: var(--muted);
+      transition: opacity .25s
+    }
+
+    /* mini bars in statusbar */
+    #bar-vis {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5px;
+      height: 16px;
+      opacity: 0;
+      transition: opacity .4s;
+    }
+
+    #bar-vis.on {
+      opacity: 1
+    }
+
+    .bv-bar {
+      width: 2px;
+      border-radius: 1px;
+      background: var(--green);
+      animation: eq .6s ease-in-out infinite alternate;
+    }
+
+    .bv-bar:nth-child(1) {
+      animation-duration: .5s;
+      height: 8px
+    }
+
+    .bv-bar:nth-child(2) {
+      animation-delay: .1s;
+      height: 14px;
+      animation-duration: .7s
+    }
+
+    .bv-bar:nth-child(3) {
+      animation-delay: .2s;
+      height: 10px;
+      animation-duration: .4s
+    }
+
+    .bv-bar:nth-child(4) {
+      animation-delay: .05s;
+      height: 12px;
+      animation-duration: .65s
     }
 
     .bar-right {
       display: flex;
       align-items: center;
       gap: 10px;
-      flex-shrink: 0;
+      flex-shrink: 0
     }
 
     .bar-tag {
       font-size: .6rem;
       letter-spacing: .1em;
       text-transform: uppercase;
-      padding: 4px 10px;
+      padding: 4px 11px;
       border-radius: 20px;
       background: var(--s2);
       color: var(--muted);
       border: .5px solid var(--border);
+      transition: all .3s;
     }
 
     .bar-tag.live {
       background: rgba(29, 185, 84, .1);
       color: var(--green);
       border-color: rgba(29, 185, 84, .3);
+      animation: tagPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes tagPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(29, 185, 84, .2)
+      }
+
+      50% {
+        box-shadow: 0 0 0 5px rgba(29, 185, 84, 0)
+      }
     }
 
     #open-sp {
@@ -733,22 +980,45 @@
       font-size: .68rem;
       color: var(--muted);
       text-decoration: none;
-      padding: 6px 12px;
+      padding: 6px 13px;
       border-radius: 20px;
       border: .5px solid var(--border);
-      transition: color .15s, border-color .15s;
+      transition: color .15s, border-color .15s, box-shadow .2s;
       white-space: nowrap;
     }
 
     #open-sp:hover {
       color: var(--green);
       border-color: var(--green);
+      box-shadow: 0 0 16px var(--green-glow)
     }
 
     #open-sp svg {
       width: 13px;
       height: 13px;
-      fill: currentColor;
+      fill: currentColor
+    }
+
+    /* ─── TRANSITIONS ────────────────────────────────── */
+    .fade-out {
+      opacity: 0 !important;
+      transition: opacity .2s !important
+    }
+
+    .fade-in {
+      animation: fadeUp .3s ease both
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
     }
   </style>
 </head>
@@ -765,7 +1035,7 @@
       <ol>
         <li>Ve a <b>developer.spotify.com/dashboard</b></li>
         <li>Create App → marca solo <b>Web API</b></li>
-        <li>Redirect URI: <b>la URL de tu Vercel</b> (ej: https://mimusica.vercel.app)</li>
+        <li>Redirect URI: <b>la URL exacta de este archivo</b></li>
         <li>Copia tu <b>Client ID</b> y pegalo abajo</li>
       </ol>
     </div>
@@ -817,8 +1087,13 @@
           <div id="hero-title">–</div>
           <div id="hero-artist">–</div>
           <div id="hero-album"></div>
+          <!-- Fake visualizer bars (CSS-animated, no Web Audio needed) -->
+          <div id="visualizer">
+            <!-- generated by JS -->
+          </div>
         </div>
       </div>
+
       <div id="prog-wrap">
         <div class="prog-row">
           <span class="t-lbl" id="t-cur">0:00</span>
@@ -828,6 +1103,7 @@
           <span class="t-lbl r" id="t-dur">0:00</span>
         </div>
       </div>
+
       <div id="tl-wrap">
         <div class="tl-head">
           <span>#</span><span>Cancion</span><span>Album</span><span style="text-align:right">Dur.</span>
@@ -845,6 +1121,12 @@
         <div id="bar-title">Sin reproduccion activa</div>
         <div id="bar-artist">Abre Spotify y reproduce algo</div>
       </div>
+      <div id="bar-vis">
+        <div class="bv-bar"></div>
+        <div class="bv-bar"></div>
+        <div class="bv-bar"></div>
+        <div class="bv-bar"></div>
+      </div>
       <div class="bar-right">
         <span class="bar-tag" id="bar-tag">–</span>
         <a href="https://open.spotify.com" target="_blank" id="open-sp">
@@ -860,22 +1142,46 @@
 
   <script>
     const SCOPES = [
-      "user-read-currently-playing",
-      "user-read-playback-state",
-      "playlist-read-private",
-      "playlist-read-collaborative",
-      "user-library-read",
-      "user-follow-read"
+      "user-read-currently-playing", "user-read-playback-state",
+      "playlist-read-private", "playlist-read-collaborative",
+      "user-library-read", "user-follow-read"
     ].join(" ");
 
     let token = "";
 
+    /* ── VISUALIZER SETUP ─────────────────────────────── */
+    (function buildVis() {
+      const v = document.getElementById("visualizer");
+      for (let i = 0; i < 28; i++) {
+        const b = document.createElement("div"); b.className = "vis-bar";
+        // randomize animation timing per bar for organic feel
+        const dur = (.4 + Math.random() * .6).toFixed(2) + "s";
+        const delay = (Math.random() * .5).toFixed(2) + "s";
+        const maxH = (14 + Math.random() * 18).toFixed(0) + "px";
+        b.style.cssText = `animation-duration:${dur};animation-delay:${delay};--max-h:${maxH}`;
+        b.style.height = "4px";
+        v.appendChild(b);
+      }
+      // override keyframe max scale dynamically
+      const sheet = document.createElement("style");
+      // each bar scales from .1 to 1 but has different natural height → organic
+      sheet.textContent = `
+      .vis-bar{height:4px}
+      @keyframes visBar{from{transform:scaleY(.08)}to{transform:scaleY(1)}}
+    `;
+      document.head.appendChild(sheet);
+      // set individual max heights via JS
+      v.querySelectorAll(".vis-bar").forEach(b => {
+        b.style.height = (8 + Math.random() * 24).toFixed(0) + "px";
+      });
+    })();
+
+    /* ── AUTH ─────────────────────────────────────────── */
     function startAuth() {
       const id = document.getElementById("inp-id").value.trim();
-      if (!id) { showErr("Introduce tu Client ID"); return; }
+      if (!id) { showErr("Introduce tu Client ID"); return }
       localStorage.setItem("sp_cid", id);
-      const v = rnd(128);
-      localStorage.setItem("sp_ver", v);
+      const v = rnd(128); localStorage.setItem("sp_ver", v);
       ch(v).then(c => {
         location.href = "https://accounts.spotify.com/authorize?" + new URLSearchParams({
           client_id: id, response_type: "code",
@@ -884,7 +1190,6 @@
         });
       });
     }
-
     function rnd(n) {
       const a = new Uint8Array(n); crypto.getRandomValues(a);
       return btoa(String.fromCharCode(...a)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "").slice(0, n);
@@ -893,22 +1198,17 @@
       const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(v));
       return btoa(String.fromCharCode(...new Uint8Array(d))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
     }
-
     async function exchangeCode(code) {
       const ver = localStorage.getItem("sp_ver"), id = localStorage.getItem("sp_cid");
-      if (!ver || !id) { showErr("Sesion expirada."); return; }
+      if (!ver || !id) { showErr("Sesion expirada."); return }
       const r = await fetch("https://accounts.spotify.com/api/token", {
         method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          grant_type: "authorization_code", code,
-          redirect_uri: location.origin + location.pathname, client_id: id, code_verifier: ver
-        })
+        body: new URLSearchParams({ grant_type: "authorization_code", code, redirect_uri: location.origin + location.pathname, client_id: id, code_verifier: ver })
       });
       const d = await r.json();
-      if (!d.access_token) { showErr("Error de token."); return; }
+      if (!d.access_token) { showErr("Error de token."); return }
       saveTok(d); history.replaceState({}, "", location.pathname); launch();
     }
-
     async function doRefresh() {
       const ref = localStorage.getItem("sp_ref"), id = localStorage.getItem("sp_cid");
       if (!ref || !id) return false;
@@ -920,14 +1220,12 @@
       if (!d.access_token) return false;
       saveTok(d); return true;
     }
-
     function saveTok(d) {
       token = d.access_token;
       localStorage.setItem("sp_tok", token);
       localStorage.setItem("sp_exp", Date.now() + d.expires_in * 1000);
       if (d.refresh_token) localStorage.setItem("sp_ref", d.refresh_token);
     }
-
     async function api(path) {
       if (Date.now() > parseInt(localStorage.getItem("sp_exp") || 0) - 60000) await doRefresh();
       const r = await fetch("https://api.spotify.com/v1" + path, { headers: { Authorization: "Bearer " + token } });
@@ -935,9 +1233,9 @@
       if (!r.ok) return null;
       return r.json().catch(() => null);
     }
+    function showErr(m) { const e = document.getElementById("auth-err"); e.textContent = m; e.style.display = "block" }
 
-    function showErr(m) { const e = document.getElementById("auth-err"); e.textContent = m; e.style.display = "block"; }
-
+    /* ── LAUNCH ───────────────────────────────────────── */
     function launch() {
       document.getElementById("auth").style.display = "none";
       document.getElementById("app").style.display = "grid";
@@ -946,6 +1244,7 @@
       pollNow();
     }
 
+    /* ── LIBRARY ──────────────────────────────────────── */
     async function loadLib(type, tabEl) {
       document.querySelectorAll(".sb-tab").forEach(t => t.classList.remove("on"));
       tabEl.classList.add("on");
@@ -954,29 +1253,30 @@
       try {
         if (type === "playlists") {
           const d = await api("/me/playlists?limit=50");
-          (d?.items || []).forEach(pl => list.appendChild(makeItem(
+          (d?.items || []).forEach((pl, i) => list.appendChild(makeItem(
             pl.images?.[0]?.url, pl.name, `${pl.tracks?.total ?? 0} canciones`,
-            () => loadPlaylist(pl.id, pl.name)
+            () => loadPlaylist(pl.id, pl.name), i
           )));
         } else if (type === "albums") {
           const d = await api("/me/albums?limit=50");
-          (d?.items || []).forEach(({ album }) => list.appendChild(makeItem(
+          (d?.items || []).forEach(({ album }, i) => list.appendChild(makeItem(
             album.images?.[1]?.url, album.name, album.artists?.[0]?.name || "",
-            () => loadAlbum(album.id, album.name)
+            () => loadAlbum(album.id, album.name), i
           )));
         } else {
           const d = await api("/me/following?type=artist&limit=50");
-          (d?.artists?.items || []).forEach(a => list.appendChild(makeItem(
+          (d?.artists?.items || []).forEach((a, i) => list.appendChild(makeItem(
             a.images?.[2]?.url, a.name, `${(a.followers?.total || 0).toLocaleString()} seguidores`,
-            () => loadArtist(a.id, a.name)
+            () => loadArtist(a.id, a.name), i
           )));
         }
-        if (!list.children.length) list.innerHTML = "<p class=\"sb-msg\">Sin elementos.</p>";
-      } catch (e) { list.innerHTML = "<p class=\"sb-msg\">Error cargando.</p>"; }
+        if (!list.children.length) list.innerHTML = "<p class='sb-msg'>Sin elementos.</p>";
+      } catch (e) { list.innerHTML = "<p class='sb-msg'>Error cargando.</p>" }
     }
 
-    function makeItem(imgUrl, name, detail, onClick) {
+    function makeItem(imgUrl, name, detail, onClick, idx = 0) {
       const el = document.createElement("div"); el.className = "lib-item";
+      el.style.animationDelay = (idx * 0.04) + "s";
       el.innerHTML = `<div class="li-thumb">${imgUrl ? `<img src="${imgUrl}" alt="" onerror="this.style.display='none'">` : "♪"}</div>
     <div class="li-meta"><div class="li-name">${esc(name)}</div><div class="li-detail">${esc(detail)}</div></div>`;
       el.onclick = () => {
@@ -1008,20 +1308,24 @@
       document.getElementById("hero-album").textContent = "";
       document.getElementById("hero-label").textContent = "Biblioteca";
       document.getElementById("eq").classList.remove("on");
+      document.getElementById("visualizer").classList.remove("on");
     }
 
     function renderTracks(tracks) {
       const tl = document.getElementById("track-list"); tl.innerHTML = "";
-      if (!tracks.length) { tl.innerHTML = "<p class=\"sb-msg\">Sin canciones.</p>"; return; }
+      if (!tracks.length) { tl.innerHTML = "<p class='sb-msg'>Sin canciones.</p>"; return }
       tracks.forEach((tr, i) => {
         const art = tr.album?.images?.[2]?.url || "";
         const artist = tr.artists?.map(a => a.name).join(", ") || "–";
         const row = document.createElement("div"); row.className = "tr"; row.dataset.uri = tr.uri || "";
+        row.style.animationDelay = (i * 0.025) + "s";
         row.innerHTML = `<span class="tr-num">${i + 1}</span>
       <div class="tr-main">
         <div class="tr-art">${art ? `<img src="${art}" alt="">` : ""}</div>
-        <div class="tr-info"><div class="tr-name">${esc(tr.name || "–")}</div>
-        <div class="tr-artist">${esc(artist)}</div></div>
+        <div class="tr-info">
+          <div class="tr-name">${esc(tr.name || "–")}</div>
+          <div class="tr-artist">${esc(artist)}</div>
+        </div>
       </div>
       <div class="tr-album">${esc(tr.album?.name || "–")}</div>
       <div class="tr-dur">${ms(tr.duration_ms || 0)}</div>`;
@@ -1029,35 +1333,89 @@
       });
     }
 
+    /* ── POLL ─────────────────────────────────────────── */
+    let _lastUri = "";
+
     async function pollNow() {
       const d = await api("/me/player/currently-playing");
-      if (!d?.item) { setIdle(); return; }
+      if (!d?.item) { setIdle(); return }
       const tr = d.item, playing = d.is_playing, pos = d.progress_ms, dur = tr.duration_ms;
       const name = tr.name || "–";
       const artist = tr.artists?.map(a => a.name).join(", ") || "–";
       const art = tr.album?.images?.[1]?.url || "";
+      const isNew = tr.uri !== _lastUri;
 
-      document.getElementById("hero-title").textContent = name;
-      document.getElementById("hero-artist").textContent = artist;
-      document.getElementById("hero-album").textContent = tr.album?.name || "";
-      document.getElementById("hero-label").textContent = playing ? "Reproduciendo ahora" : "En pausa";
-      document.getElementById("eq").classList.toggle("on", playing);
-      document.getElementById("live-dot").style.animationPlayState = playing ? "running" : "paused";
-
-      if (art) {
-        document.getElementById("art-img").src = art;
-        const bg = document.getElementById("bg-art");
-        bg.style.backgroundImage = `url(${art})`; bg.style.opacity = "1";
+      if (isNew) {
+        // animate hero title transition
+        const titleEl = document.getElementById("hero-title");
+        const artistEl = document.getElementById("hero-artist");
+        const albumEl = document.getElementById("hero-album");
+        titleEl.classList.add("fade-out");
+        artistEl.classList.add("fade-out");
+        albumEl.classList.add("fade-out");
+        const artImg = document.getElementById("art-img");
+        artImg.classList.add("refreshing");
+        setTimeout(() => {
+          titleEl.textContent = name;
+          artistEl.textContent = artist;
+          albumEl.textContent = tr.album?.name || "";
+          titleEl.classList.remove("fade-out"); titleEl.classList.add("fade-in");
+          artistEl.classList.remove("fade-out"); artistEl.classList.add("fade-in");
+          albumEl.classList.remove("fade-out"); albumEl.classList.add("fade-in");
+          setTimeout(() => {
+            titleEl.classList.remove("fade-in");
+            artistEl.classList.remove("fade-in");
+            albumEl.classList.remove("fade-in");
+          }, 400);
+          if (art) {
+            artImg.src = art;
+            artImg.classList.remove("refreshing");
+            const bg = document.getElementById("bg-art");
+            bg.style.backgroundImage = `url(${art})`;
+            bg.style.opacity = "1";
+          } else {
+            artImg.classList.remove("refreshing");
+          }
+        }, 250);
+        _lastUri = tr.uri;
+      } else {
+        document.getElementById("hero-title").textContent = name;
+        document.getElementById("hero-artist").textContent = artist;
+        document.getElementById("hero-album").textContent = tr.album?.name || "";
       }
 
-      const pct = dur > 0 ? (pos / dur * 100).toFixed(1) : 0;
+      document.getElementById("hero-label").textContent = playing ? "Reproduciendo ahora" : "En pausa";
+      document.getElementById("eq").classList.toggle("on", playing);
+      document.getElementById("visualizer").classList.toggle("on", playing);
+      document.getElementById("live-dot").style.animationPlayState = playing ? "running" : "paused";
+
+      // art float animation
+      const artImg = document.getElementById("art-img");
+      if (playing) { artImg.classList.add("playing") }
+      else { artImg.classList.remove("playing") }
+
+      const pct = dur > 0 ? (pos / dur * 100).toFixed(2) : 0;
       document.getElementById("prog-fill").style.width = pct + "%";
       document.getElementById("t-cur").textContent = ms(pos);
       document.getElementById("t-dur").textContent = ms(dur);
 
-      document.getElementById("bar-title").textContent = name;
-      document.getElementById("bar-artist").textContent = artist;
-      if (art) { const img = document.getElementById("bar-img"); img.src = art; img.style.display = "block"; }
+      // statusbar
+      const sb = document.getElementById("statusbar");
+      sb.classList.toggle("active", playing);
+      document.getElementById("bar-vis").classList.toggle("on", playing);
+
+      const bTitle = document.getElementById("bar-title");
+      const bArtist = document.getElementById("bar-artist");
+      if (bTitle.textContent !== name) {
+        bTitle.style.opacity = "0"; bArtist.style.opacity = "0";
+        setTimeout(() => {
+          bTitle.textContent = name; bArtist.textContent = artist;
+          bTitle.style.opacity = ""; bArtist.style.opacity = "";
+        }, 200);
+      }
+
+      const barImg = document.getElementById("bar-img");
+      if (art && barImg.src !== art) { barImg.src = art; barImg.style.display = "block" }
       const tag = document.getElementById("bar-tag");
       tag.textContent = playing ? "En vivo" : "Pausado";
       tag.className = "bar-tag" + (playing ? " live" : "");
@@ -1066,25 +1424,30 @@
     }
 
     function setIdle() {
+      document.getElementById("statusbar").classList.remove("active");
+      document.getElementById("bar-vis").classList.remove("on");
       document.getElementById("bar-title").textContent = "Sin reproduccion activa";
       document.getElementById("bar-artist").textContent = "Abre Spotify y reproduce algo";
       document.getElementById("bar-tag").textContent = "–";
       document.getElementById("bar-tag").className = "bar-tag";
       document.getElementById("eq").classList.remove("on");
+      document.getElementById("visualizer").classList.remove("on");
+      document.getElementById("art-img").classList.remove("playing");
     }
 
-    function ms(v) { if (!v) return "0:00"; const s = Math.floor(v / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
-    function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+    function ms(v) { if (!v) return "0:00"; const s = Math.floor(v / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}` }
+    function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") }
+
     (function boot() {
       const params = new URLSearchParams(location.search);
       const code = params.get("code");
-      if (code) { history.replaceState({}, "", location.pathname); exchangeCode(code); return; }
+      if (code) { history.replaceState({}, "", location.pathname); exchangeCode(code); return }
       const saved = localStorage.getItem("sp_tok");
       const exp = parseInt(localStorage.getItem("sp_exp") || 0);
       const cid = localStorage.getItem("sp_cid");
       if (cid) document.getElementById("inp-id").value = cid;
-      if (saved && Date.now() < exp) { token = saved; launch(); return; }
-      if (localStorage.getItem("sp_ref")) doRefresh().then(ok => { if (ok) launch(); });
+      if (saved && Date.now() < exp) { token = saved; launch(); return }
+      if (localStorage.getItem("sp_ref")) doRefresh().then(ok => { if (ok) launch() });
     })();
   </script>
 </body>
