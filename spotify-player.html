@@ -403,10 +403,28 @@
     /* ALBUM ART */
     #art-wrap {
       position: relative;
-      flex-shrink: 0
+      flex-shrink: 0;
+      width: 130px;
+      height: 130px
+    }
+
+    #art-placeholder {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: var(--s2);
+      border: .5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--dim);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .5);
     }
 
     #art-img {
+      position: absolute;
+      inset: 0;
       width: 130px;
       height: 130px;
       border-radius: 12px;
@@ -415,6 +433,11 @@
       background: var(--s2);
       box-shadow: 0 24px 64px rgba(0, 0, 0, .7), 0 0 0 .5px rgba(255, 255, 255, .06);
       transition: opacity .5s, transform .5s cubic-bezier(.34, 1.56, .64, 1);
+      opacity: 0;
+    }
+
+    #art-img.visible {
+      opacity: 1
     }
 
     #art-img.refreshing {
@@ -1072,6 +1095,7 @@
     <div id="main">
       <div id="hero">
         <div id="art-wrap">
+          <div id="art-placeholder">♪</div>
           <img id="art-img" src="" alt="">
           <div class="eq" id="eq">
             <div class="eq-bar" style="height:4px"></div>
@@ -1370,6 +1394,8 @@
           if (art) {
             artImg.src = art;
             artImg.classList.remove("refreshing");
+            artImg.classList.add("visible");
+            document.getElementById("art-placeholder").style.opacity = "0";
             const bg = document.getElementById("bg-art");
             bg.style.backgroundImage = `url(${art})`;
             bg.style.opacity = "1";
